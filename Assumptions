@@ -1,0 +1,14 @@
+The assumption is that the layout of the Venue is fixed, so the level information has been taken to be constant and there present in Constant files
+Some other ways by which this functionality can be achieved:
+1. Expose each of these services as a REST API using Spring and return a json response from the API
+2. Manage the database connections using connection pools
+3. Integrate the database layer in spring using Hibernate Template
+4. The design can further be elaborated to store the confirmation number and the reserved seats specific to each customer, also including the total price for the tickets
+(Currently this has not been implemented)
+5. The scope of this application is to provide the functionality of the three methods in 
+the Ticket Service interface
+6. The seatsLeft attribute in the currentstatus table, can be populated from the master table-venue. This has not been implemented in this application
+7. Log4j has been integrated to display the loggers
+The primary data source to maintain the status of the seats is MYSQL Database. The scripts related to the tables and the database information has been documented in the 
+mysql.scripts file
+The connection details along with the credentials for this test database is present in WalmartConstants.java

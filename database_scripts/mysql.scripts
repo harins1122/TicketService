@@ -1,0 +1,42 @@
+create database WalmartHomework;
+use database WalmartHomework;
+
+--Create the following tables in the database
+CREATE TABLE `currentstatus` (
+  `level_id` int(11) NOT NULL,
+  `seatsLeft` int(11) DEFAULT NULL,
+  `seatsHeld` int(11) DEFAULT NULL,
+  `seatsReserved` int(11) DEFAULT NULL,
+  PRIMARY KEY (`level_id`),
+  CONSTRAINT `currentstatus_ibfk_1` FOREIGN KEY (`level_id`) REFERENCES `venue` (`level_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 
+
+Insert the following records in this table
+insert into currentstatus values(1,1250,0,0); //Total number of rows * seats in a row
+insert into currentstatus values(2,2000,0,0); //Total number of rows * seats in a row
+insert into currentstatus values(3,1500,0,0); //Total number of rows * seats in a row
+insert into currentstatus values(4,1500,0,0); //Total number of rows * seats in a row
+
+CREATE TABLE `holdinformation` (
+  `hold_id` int(11) NOT NULL AUTO_INCREMENT,
+  `level_id` int(11) NOT NULL,
+  `seatCount` int(11) NOT NULL,
+  `createdDate` date DEFAULT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `email` varchar(100) NOT NULL,
+  PRIMARY KEY (`hold_id`,`level_id`),
+  KEY `level_id` (`level_id`),
+  CONSTRAINT `holdinformation_ibfk_1` FOREIGN KEY (`level_id`) REFERENCES `currentstatus` (`level_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8
+
+--This is the master table with the venue information
+CREATE TABLE `venue` (
+  `level_id` int(11) NOT NULL,
+  `level_name` varchar(50) NOT NULL,
+  `price` double(3,0) NOT NULL,
+  `no_of_rows` int(11) NOT NULL,
+  `seats_in_row` int(11) NOT NULL,
+  PRIMARY KEY (`level_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+--Insert the master data with level_id, level_name, price, no_of_rows, seats_in_row for each level
