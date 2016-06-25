@@ -1,10 +1,7 @@
 # walmart-homework
 
 # Assumptions
-
-Added runtime exceptions for the following cases:
- + Attempting to reserve seats after the seat hold expired
- + The number of seats requested exceeds the total available seats
+All the assumptions have been added to the "Assumptions" file
 
 TicketService implementation is not thread safe or transactional.
 
