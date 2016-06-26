@@ -18,9 +18,9 @@ import com.walmart.startup.StartApplication;
  * @author Harini Pasupuleti
  *
  */
-public class QueryData {
+public class QueryDAO {
 
-	static Logger logger = Logger.getLogger(QueryData.class.getName());
+	static Logger logger = Logger.getLogger(QueryDAO.class.getName());
 	
 	/**
 	 * To populate the initial seat status at the various levels

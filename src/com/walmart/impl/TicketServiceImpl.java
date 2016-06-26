@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.apache.log4j.Logger;
 
 import com.walmart.constants.WalmartConstants;
-import com.walmart.dao.QueryData;
+import com.walmart.dao.QueryDAO;
 import com.walmart.dto.SeatHold;
 import com.walmart.service.TicketService;
 import com.walmart.startup.StartApplication;
@@ -36,9 +36,9 @@ public class TicketServiceImpl implements TicketService {
 		logger.info("venue:" + venueLevel.isPresent());
 		try {
 			if (venueLevel.isPresent()) {
-				return QueryData.readCurrentLevelStatus(venueLevel.get(), StartApplication.connection);
+				return QueryDAO.readCurrentLevelStatus(venueLevel.get(), StartApplication.connection);
 			} else {
-				return QueryData.readCurrentStatus(StartApplication.connection);
+				return QueryDAO.readCurrentStatus(StartApplication.connection);
 			}
 		} catch (SQLException e) {
 			logger.error("Exception occured in numSeatsAvailable();" + e);
@@ -56,7 +56,7 @@ public class TicketServiceImpl implements TicketService {
 	public String reserveSeats(int seatHoldId, String customerEmail) {
 		String confirmationNumber = null;
 		try {
-			confirmationNumber = QueryData.confirmBooking(seatHoldId, customerEmail);
+			confirmationNumber = QueryDAO.confirmBooking(seatHoldId, customerEmail);
 		} catch (SQLException se) {
 			logger.error("Exception occured in reserveSeats();" + se);
 		}
@@ -81,10 +81,10 @@ public class TicketServiceImpl implements TicketService {
 		int minLevelId = WalmartConstants.MIN_LEVEL_VENUE;
 		try {
 			//Before holding seats, clear the seats which have been held for a specific duration
-			QueryData.clearHoldInformation();
+			QueryDAO.clearHoldInformation();
 			EmailValidator emailValidator = new EmailValidator();
 			if (emailValidator.validate(customerEmail)) {
-				boolean recordExists = QueryData.checkIfRecordExists(customerEmail);
+				boolean recordExists = QueryDAO.checkIfRecordExists(customerEmail);
 				if (recordExists) {
 					seatHold = new SeatHold();
 					seatHold.setMessage("Duplicate record found with the same Email ID");
@@ -100,7 +100,7 @@ public class TicketServiceImpl implements TicketService {
 						int minimumLevel = minLevel.get();
 						int maximumLevel = maxLevel.get();
 						while (minimumLevel <= maximumLevel && target > 0) {
-							int currentGlobalCount = QueryData.readCurrentLevelStatus(minimumLevel);
+							int currentGlobalCount = QueryDAO.readCurrentLevelStatus(minimumLevel);
 							int newTarget = holdSeats(currentGlobalCount, target, minimumLevel, customerEmail);
 							target = newTarget;
 							minimumLevel++;
@@ -110,7 +110,7 @@ public class TicketServiceImpl implements TicketService {
 				} else if (minLevel.isPresent() && !maxLevel.isPresent()) {
 					int minimumLevel = minLevel.get();
 					while (minimumLevel <= maxLevelId && target > 0) {
-						int currentGlobalCount = QueryData.readCurrentLevelStatus(minimumLevel);
+						int currentGlobalCount = QueryDAO.readCurrentLevelStatus(minimumLevel);
 						int newTarget = holdSeats(currentGlobalCount, target, minimumLevel, customerEmail);
 						target = newTarget;
 						minimumLevel++;
@@ -120,7 +120,7 @@ public class TicketServiceImpl implements TicketService {
 
 					int maximumLevel = maxLevel.get();
 					while (maximumLevel >= minLevelId && target > 0) {
-						int currentGlobalCount = QueryData.readCurrentLevelStatus(maximumLevel);
+						int currentGlobalCount = QueryDAO.readCurrentLevelStatus(maximumLevel);
 						int newTarget = holdSeats(currentGlobalCount, target, maximumLevel, customerEmail);
 						target = newTarget;
 						maximumLevel--;
@@ -128,7 +128,7 @@ public class TicketServiceImpl implements TicketService {
 
 				} else if (!minLevel.isPresent() && !maxLevel.isPresent()) {
 					while (maxLevelId > 0 && target > 0) {
-						int currentGlobalCount = QueryData.readCurrentLevelStatus(maxLevelId);
+						int currentGlobalCount = QueryDAO.readCurrentLevelStatus(maxLevelId);
 						int newTarget = holdSeats(currentGlobalCount, target, maxLevelId, customerEmail);
 						target = newTarget;
 						maxLevelId--;
@@ -165,14 +165,14 @@ public class TicketServiceImpl implements TicketService {
 		if (currentLevelCount > 0 && target > 0) {
 			if (target < currentLevelCount) {
 				currentLevelCount = currentLevelCount - target;
-				QueryData.updateCurrentStatusTable(currentLevelCount, target, level_id);
-				QueryData.insertHoldInformation(level_id, target, email);
+				QueryDAO.updateCurrentStatusTable(currentLevelCount, target, level_id);
+				QueryDAO.insertHoldInformation(level_id, target, email);
 				ticketList.put(level_id, target);
 				target = 0;
 			} else {
 				target = target - currentLevelCount;
-				QueryData.updateCurrentStatusTable(0, currentLevelCount, level_id);
-				QueryData.insertHoldInformation(level_id, currentLevelCount, email);
+				QueryDAO.updateCurrentStatusTable(0, currentLevelCount, level_id);
+				QueryDAO.insertHoldInformation(level_id, currentLevelCount, email);
 				ticketList.put(level_id, currentLevelCount);
 			}
 			seatHold.setMessage("Your seats have been Held Successfully");

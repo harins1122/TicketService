@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
-import com.walmart.dao.QueryData;
+import com.walmart.dao.QueryDAO;
 import com.walmart.dto.SeatHold;
 import com.walmart.impl.TicketServiceImpl;
 import com.walmart.util.WalmartUtility;
@@ -34,7 +34,7 @@ public class StartApplication {
 		try {
 
 			if (connection != null) {
-				QueryData.populateInitialSeatStatus(connection);
+				QueryDAO.populateInitialSeatStatus(connection);
 				// To check the number of available seats
 				TicketServiceImpl implementService = new TicketServiceImpl();
 				Integer value1 = null;
