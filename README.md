@@ -1,7 +1,7 @@
 # walmart-homework
 
 # Assumptions
-All the assumptions have been added to the "Assumptions" file
+All the assumptions have been added to the "Assumptions" file included in this project
 
 TicketService implementation is not thread safe or transactional.
 

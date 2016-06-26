@@ -12,10 +12,12 @@ CREATE TABLE `currentstatus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 
 
 Insert the following records in this table
-insert into currentstatus values(1,1250,0,0); //Total number of rows * seats in a row
-insert into currentstatus values(2,2000,0,0); //Total number of rows * seats in a row
-insert into currentstatus values(3,1500,0,0); //Total number of rows * seats in a row
-insert into currentstatus values(4,1500,0,0); //Total number of rows * seats in a row
+insert into currentstatus values(1,1250,0,0); //Total number of rows * seats in a row for the level_id=1
+insert into currentstatus values(2,2000,0,0); //Total number of rows * seats in a row for the level_id=2
+insert into currentstatus values(3,1500,0,0); //Total number of rows * seats in a row for the level_id=3
+insert into currentstatus values(4,1500,0,0); //Total number of rows * seats in a row for the level_id=4
+
+--The "seatsLeft" column will reflect the current count of seats left in a given level at any given point of time
 
 CREATE TABLE `holdinformation` (
   `hold_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -39,4 +41,4 @@ CREATE TABLE `venue` (
   PRIMARY KEY (`level_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
---Insert the master data with level_id, level_name, price, no_of_rows, seats_in_row for each level
+--Insert the master data with level_id, level_name, price, no_of_rows, seats_in_row for each level-As present in the problem description

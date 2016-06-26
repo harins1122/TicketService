@@ -10,6 +10,7 @@ import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 
+import com.walmart.constants.WalmartConstants;
 import com.walmart.startup.StartApplication;
 
 /**
@@ -77,6 +78,9 @@ public class QueryData {
 	public static int readCurrentLevelStatus(int level, Connection connection) throws SQLException {
 		int currentSeats = 0;
 		try {
+			if(level>WalmartConstants.MAX_LEVEL_VENUE || level<WalmartConstants.MIN_LEVEL_VENUE){
+				return currentSeats;
+			}
 			Statement statement = StartApplication.connection.createStatement();
 			String query = "select seatsLeft from currentStatus where level_id=" + level;
 			ResultSet resultSet = statement.executeQuery(query);

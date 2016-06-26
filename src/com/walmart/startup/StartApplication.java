@@ -14,6 +14,7 @@ import com.walmart.util.WalmartUtility;
 
 /**
  * This is the main class to run the ticket service methods
+ * 
  * @author Harini Pasupuleti
  *
  */
@@ -34,7 +35,7 @@ public class StartApplication {
 
 			if (connection != null) {
 				QueryData.populateInitialSeatStatus(connection);
-				//To check the number of available seats
+				// To check the number of available seats
 				TicketServiceImpl implementService = new TicketServiceImpl();
 				Integer value1 = null;
 				Integer value2 = new Integer(1);
@@ -65,37 +66,35 @@ public class StartApplication {
 				SeatHold seathold = implementService.findAndHoldSeats(1000, Optional.ofNullable(value),
 						Optional.ofNullable(value), customerEmail);
 				displaySeatHold(seathold);
-//
-//				 seathold = implementService.findAndHoldSeats(500,
-//				 Optional.of(3),
-//				 Optional.ofNullable(value), customerEmail);
-//				 displaySeatHold(seathold);
-//
-//				 seathold = implementService.findAndHoldSeats(10,
-//				 Optional.ofNullable(value), Optional.of(2),
-//				 customerEmail);
-//				 displaySeatHold(seathold);
-//
-//				 seathold = implementService.findAndHoldSeats(1000,
-//				 Optional.of(1),
-//				 Optional.of(3), customerEmail);
-//				 displaySeatHold(seathold);
-				
-				 //To Reserve the seats
+				seathold = implementService.findAndHoldSeats(500, Optional.of(3), Optional.ofNullable(value),
+						customerEmail);
+				displaySeatHold(seathold);
+
+				seathold = implementService.findAndHoldSeats(10, Optional.ofNullable(value), Optional.of(2),
+						customerEmail);
+				displaySeatHold(seathold);
+
+				seathold = implementService.findAndHoldSeats(1000, Optional.of(1), Optional.of(3), customerEmail);
+				displaySeatHold(seathold);
+
+				// To Reserve the seats
 				String confirmationNumber = implementService.reserveSeats(99, "ha2222@gmail.com");
-				logger.info("confirmationNumber:"+confirmationNumber);
-				
+				logger.info("confirmationNumber:" + confirmationNumber);
+
 				connection.close();
 			} else {
 				logger.error("Unable to connect to database...");
 			}
 		} catch (SQLException se) {
 			logger.error("Exception occured in main method", se);
-		} finally {
 		}
-
 	}
 
+	/**
+	 * To display the Seat Hold as a Json Object
+	 * 
+	 * @param SeatHold
+	 */
 	public static void displaySeatHold(SeatHold seathold) {
 		Gson gson = new Gson();
 		String json = gson.toJson(seathold);

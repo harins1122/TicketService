@@ -39,7 +39,7 @@ public class TestTicketService {
 	
 	@Test
 	public void testReserveSeats_2(){
-		String confirmationNumber = ticketService.reserveSeats(102, "harins1122@gmail.com");
+		String confirmationNumber = ticketService.reserveSeats(102, "harins112@gmail.com");
 		Assert.assertNotNull("Confirmation number is:", confirmationNumber);
 	}
 	
@@ -48,5 +48,6 @@ public class TestTicketService {
 		SeatHold seathold = ticketService.findAndHoldSeats(10, null, null, "hari123@.com");
 		Assert.assertSame("Invalid email ID","Invalid Email Address: Cannot hold a seat", seathold.getMessage());
 	}
+	
 	
 }
