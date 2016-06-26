@@ -61,7 +61,7 @@ public class StartApplication {
 				logger.info("Current Available Seats with level information:" + levelFourCount);
 
 				// To hold and find the seats
-				String customerEmail = "ha2222@gmail.com";
+				String customerEmail = "ha222@gmail.com";
 				Integer value = null;
 				SeatHold seathold = implementService.findAndHoldSeats(1000, Optional.ofNullable(value),
 						Optional.ofNullable(value), customerEmail);
@@ -78,7 +78,7 @@ public class StartApplication {
 				displaySeatHold(seathold);
 
 				// To Reserve the seats
-				String confirmationNumber = implementService.reserveSeats(99, "ha2222@gmail.com");
+				String confirmationNumber = implementService.reserveSeats(99, "ha222@gmail.com");
 				logger.info("confirmationNumber:" + confirmationNumber);
 
 				connection.close();
